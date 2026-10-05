@@ -107,7 +107,7 @@ enclap = [
     "einops",
     "julius",
     "librosa",
-    "transformers==4.29.0",
+    "transformers==5.10.1",
     "tokenizers<0.14",
 ]
 
