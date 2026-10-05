@@ -1,0 +1,53 @@
+{
+  "absence": {
+    "description": "nobody present in the home or in the relevant room; ambient room sound only (HVAC, distant traffic, refrigerator hum)."
+  },
+  "calling": {
+    "description": "phone call — sustained one-sided speech with pauses for the remote party, typically in the living room."
+  },
+  "cooking": {
+    "description": "kitchen sounds: chopping, frying, pot/pan clatter, microwave, sizzling."
+  },
+  "dishwashing": {
+    "description": "running water in the sink with dishes clinking and scrubbing — manual washing-up, not a dishwasher cycle."
+  },
+  "dressing": {
+    "description": "fabric rustling, zippers, drawer/wardrobe sounds, hangers — typically in the bedroom."
+  },
+  "eating": {
+    "description": "cutlery on plates, chewing, glass clinks, brief speech at the table."
+  },
+  "getting_dry": {
+    "description": "towel rubbing and brisk fabric-on-skin sounds after bathing."
+  },
+  "other": {
+    "description": "a person IS present and active but the activity doesn't fit any of the listed categories. Includes transitions between activities, time between entering a room and starting something, sitting on the sofa, or crossing through the hall."
+  },
+  "shaving": {
+    "description": "electric-razor buzz or wet-shave scraping at the sink."
+  },
+  "showering": {
+    "description": "continuous water spray, often with bathroom-fan hum."
+  },
+  "sleeping": {
+    "description": "a person IS present but inactive: very quiet room, slow breathing, occasional rustling. Usually a long, uninterrupted stretch."
+  },
+  "toilet": {
+    "description": "toilet flush, brief water and seat sounds."
+  },
+  "toothbrushing": {
+    "description": "rhythmic brushing sound, often with a sink running briefly before or after."
+  },
+  "vacuumcleaner": {
+    "description": "continuous vacuum motor hum, often moving across the room. Same label regardless of which room."
+  },
+  "visit": {
+    "description": "multiple voices, conversation, doorbell, footsteps — guests in the home."
+  },
+  "watching_tv": {
+    "description": "TV speech, music, sound effects; periodic dialogue and music cues, often sustained."
+  },
+  "working": {
+    "description": "working at a computer: keyboard typing, mouse clicks, occasional brief speech (phone or video calls)."
+  }
+}
