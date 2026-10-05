@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+envs/
+
+# IDE
+.idea/
+.vscode/
+
+# Dataset files (large) — symlink datasets/SINS, datasets/ego4d,
+# datasets/egolife to local storage. manifest.public.json is the
+# release-safe segmentation-only manifest shipped in the repo.
+datasets/SINS/*
+!datasets/SINS/.gitkeep
+datasets/ego4d/*
+!datasets/ego4d/.gitkeep
+!datasets/ego4d/manifest.public.json
+datasets/egolife/*
+!datasets/egolife/.gitkeep
+!datasets/egolife/manifest.public.json
+
+# Local inference run outputs (not source code) — keep dir via .gitkeep
+runs/*
+!runs/.gitkeep
+
+# Model weights — keep dir via .gitkeep
+models/*
+!models/.gitkeep
+long_audio/runs/

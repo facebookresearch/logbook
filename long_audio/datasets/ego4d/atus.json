@@ -1,0 +1,20 @@
+{
+  "productive": {
+    "description": "Directed activity that produces output or meets someone's tangible needs: paid or unpaid work (including skilled trades and manual labor as a job), studying or attending class, homework or research, household maintenance (cleaning, laundry, repairs, lawn/garden, pet care), and hands-on dependent care (feeding, dressing, bathing, teaching children or elderly). Exclude: cooking or eating (use `food`); shopping (use `purchasing`); commuting (use `traveling`); recreational or conversational time with family (use `leisure`)."
+  },
+  "food": {
+    "description": "Preparing, eating, or drinking, alone or with others, at home or elsewhere. Includes cooking, setting the table, and kitchen cleanup. Eating in any context belongs here, not in leisure."
+  },
+  "leisure": {
+    "description": "Activities done for personal enjoyment or relaxation rather than work or output: TV / streaming / movies, music, video games, reading or writing for pleasure, hobbies, arts and crafts, cultural events; exercise and sports of all kinds; personal phone, text, or video calls; in-person socializing or hosting; and casual family time (chatting, playing, reading together). Exclude: household chores or maintenance (cleaning, laundry, repairs, lawn/garden, pet care) and hands-on dependent care (use `productive`); shopping or in-person transactions (use `purchasing`); eating with others (use `food`)."
+  },
+  "purchasing": {
+    "description": "Shopping for goods or services, in-store, online, or by phone, including visits to professionals such as doctors, banks, or hairdressers."
+  },
+  "traveling": {
+    "description": "Commuting or travel between activities, by car, foot, transit, or any other means. Movement during another activity (e.g., walking around a workshop while working) belongs to that activity."
+  },
+  "other": {
+    "description": "Any other activities that do not fit the above categories. Also use this when there is no audible activity (silence, ambient quiet, or audio where no clear human activity is occurring)."
+  }
+}

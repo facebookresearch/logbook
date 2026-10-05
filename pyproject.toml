@@ -1,0 +1,123 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the CC-BY-NC-4.0 license found in the
+# LICENSE file in the root directory of this source tree.
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "long-audio"
+version = "0.1.0"
+description = "Long-audio data loading for LLM-based audio understanding"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "soundfile",
+    "numpy",
+    "scipy",
+    "tqdm",
+    "natsort",
+    "requests",
+    "json-repair>=0.50",
+    "rapidfuzz>=3",
+    "tenacity>=8",
+]
+
+# Install extras:
+#   pip install -e .[gpu]          # GPU inference (vLLM stack, torch, HF)
+#   pip install -e .[cpu]          # data-prep only (no GPU deps)
+#   pip install -e .[enclap]       # EnCLAP / MS-CLAP captioners for cascade A
+#
+# IMPORTANT — the [gpu] and [enclap] names alone DO NOT pin the right
+# CUDA-tagged wheels. PyPI's default vllm==0.21.0 wheel is cu13 and
+# torch==2.11.0 is cu13, but the H100 cluster's driver is 12.9 and can
+# only load CUDA 12.x runtimes. The full consolidated env (las-all) is
+# bootstrapped with the index-url overrides + EnCLAP --no-deps layering done in
+# scripts/install_las_all.sh — run that, not a bare `pip install -e`.
+#
+# Notes:
+#   - vllm 0.21.0+cu129 lives only at https://wheels.vllm.ai/0.21.0/cu129
+#     (NOT PyPI). torch+cu129 lives at https://download.pytorch.org/whl/cu129.
+#     PEP 440 local versions (the `+cu129` tag) can't be expressed as a
+#     dependency string here — that's why the cu wheels are an install-time
+#     concern, not a pyproject pin.
+#   - vllm-omni is NOT a dependency. Mainstream vllm is the working path
+#     on the H100 cluster.
+[project.optional-dependencies]
+gpu = [
+    # GPU inference stack — matches the env-setup.sh that this extras list
+    # replaces. Torch is left unpinned so users on different CUDA versions
+    # can supply their own wheel index (e.g. --index-url
+    # https://download.pytorch.org/whl/cu124).
+    "torch",
+    "torchaudio",
+    "vllm>=0.21,<0.22",
+    "transformers>=5.9",
+    "accelerate",
+    "huggingface-hub[cli]",
+    "hf_transfer",
+    "pillow",
+    "av",
+    "librosa",
+    "google-genai",
+]
+train = [
+    # E2E fine-tuning stack (HF-native, NOT vLLM). Plain bf16 LoRA — NO
+    # bitsandbytes: it can't 4-bit-quantize Qwen3-Omni's fused-Parameter MoE
+    # experts (~17B/30B params), so QLoRA buys almost nothing here. See
+    # docs/research/qwen3_omni_hf_training.md. Multi-GPU is naive model
+    # parallel via device_map="auto"; DeepSpeed/FSDP is a deliberate
+    # follow-up, not required for the single-process path.
+    "torch",
+    "torchaudio",
+    "transformers>=5.9",
+    "accelerate",
+    "peft",
+    "wandb",
+    "tensorboard",
+    # HF Trainer imports `datasets` (isinstance check). The repo's top-level
+    # datasets/ data dir is a namespace pkg that would otherwise shadow it and
+    # break the check; installing real `datasets` (a regular package) wins the
+    # import per PEP 420. Required whenever the Trainer path is used.
+    "datasets",
+    "librosa",
+]
+cpu = [
+    # Data-prep only: no torch/vLLM. Useful for narration cleaning,
+    # manifest building, eval scoring on a CPU-only box.
+    "transformers>=4.45",
+    "huggingface-hub[cli]",
+    "av",
+    "librosa",
+]
+enclap = [
+    # Captioning stack — covers BOTH cascade Stage A captioner arms:
+    #   - enclap     : LAION-CLAP + EnCodec + BART (ICASSP 2024). Wraps
+    #                  github.com/jaeyeonkim99/EnCLAP (clone separately).
+    #   - msclap-cap : MS-CLAP + GPT-2 prefix decoder. Auto-downloads.
+    # Both wrap models that depend on transformers < 5.x internals
+    # (EnCLAP needs the removed BartDecoder/BartEncoder embed_tokens arg
+    # + _expand_mask; msclap calls tokenizer.encode_plus). They live in
+    # a SEPARATE las-enclap venv (transformers 4.36) so they don't drag
+    # the main las-all stack (transformers 5.9, required by vLLM /
+    # Qwen-Omni) backwards. Bootstrap via scripts/install_las_enclap.sh.
+    "torch",
+    "torchaudio",
+    "encodec",
+    "laion-clap",
+    "msclap",
+    "einops",
+    "julius",
+    "librosa",
+    "transformers==4.29.0",
+    "tokenizers<0.14",
+]
+
+[project.scripts]
+
+[tool.setuptools.packages.find]
+include = ["long_audio*"]
